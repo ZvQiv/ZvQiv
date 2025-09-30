@@ -75,8 +75,11 @@ function deploymentFramework:enableAutoReplace()
                     -- Optional: apply Y-offset so it sits on the ground
                     local cf = v.WorldPivot
 
+                    -- format the name with spaces between lowercase-uppercase letters
+                    local formattedName = v.Name:gsub("(%l)(%u)", "%1 %2")
+
                     game.ReplicatedStorage.RemoteFunctions.CreateDeployable:InvokeServer(
-                        itemName,
+                        formattedName,
                         cf,
                         "Close"
                     )
@@ -86,6 +89,7 @@ function deploymentFramework:enableAutoReplace()
         end
     end)
 end
+
 
 
 return deploymentFramework
