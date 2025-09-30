@@ -1,18 +1,14 @@
 local deploymentFramework = {}
 deploymentFramework.__index = deploymentFramework
 
--- constructor
 function deploymentFramework.new()
     local object_data = setmetatable({
-        deployables = {} -- stores deployables grouped by wave
+        deployables = {
     }, deploymentFramework)
 
     return object_data
 end
 
--- store deployables in memory
--- deploy_table format:
--- { ["Flame Turret"] = { positions = {CFrame1, CFrame2}, autoReplace = true } }
 function deploymentFramework:create_deployables(wave, deploy_table)
     if not self.deployables[wave] then
         self.deployables[wave] = {}
@@ -58,9 +54,8 @@ function deploymentFramework:deploy_wave(wave)
     end
 end
 
--- enable auto-replacement of deployables that have autoReplace = true
 function deploymentFramework:enableAutoReplace()
-    local playerDeployables = workspace.Deployables[game.Players.LocalPlayer.Name]
+    local playerDeployables = workspace.Deployables:FindFirstChild(game.Players.LocalPlayer.Name) or playerDeployables:WaitForChild(game.Players.LocalPlayer.Name)
 
     playerDeployables.ChildRemoved:Connect(function(v)
         if not v.PrimaryPart then
