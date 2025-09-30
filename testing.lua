@@ -1,3 +1,4 @@
+local settings = { }
 local replicated_storage = game:GetService("ReplicatedStorage")
 local players = game:GetService('Players')
 local teleportService = game:GetService('TeleportService')
@@ -88,7 +89,7 @@ do
 
         startFarming(newFramework)
 
-        return newFramework
+        return newFramework, settings
     end
 end
 
