@@ -1,9 +1,3 @@
-local Players = game:GetService("Players")
-local lplr = Players.LocalPlayer
-local pGui = lplr.PlayerGui
-local screenGui = pGui.ScreenGui
-local waveLabel = screenGui.GameFrame.Core.WeaponFrame.Wave
-
 local deploymentFramework = {}
 deploymentFramework.__index = deploymentFramework
 
@@ -34,8 +28,8 @@ function deploymentFramework:create_deployables(wave, deploy_table)
 end
 
 -- deploy everything for the *current* wave
-function deploymentFramework:deploy_wave()
-    local current_wave = tonumber(waveLabel.Text)
+function deploymentFramework:deploy_wave(wave) -- need to pass the wave here
+    local current_wave = tonumber(wave)
     if not current_wave then
         warn("Wave label text is not a valid number.")
         return
