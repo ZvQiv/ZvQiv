@@ -27,18 +27,21 @@ coroutine.wrap(function()
         local current_wave = wave.Text
 
         for k1, v1 in pairs(getgenv().config) do
-            if type(v1) == "table" and v1.buyable then
-                buy:FireServer(k1)
+            if type(v1) == "table" and v1.buyable ~= nil then
+                if v1.buyable then
+                    buy:FireServer(k1)
         
-                for k2, v2 in pairs(v1) do
-                    if k2 ~= "buyable" then
-                        for i = 1, v2 do
-                            upgrade:FireServer(k1, k2)
+                    for k2, v2 in pairs(v1) do
+                        if k2 ~= "buyable" then
+                            for i = 1, v2 do
+                                upgrade:FireServer(k1, k2)
+                            end
                         end
                     end
                 end
             end
         end
+
         
         wave:GetPropertyChangedSignal("Text"):Connect(function()
             current_wave = wave.Text
