@@ -81,7 +81,7 @@ do
         local module = loadstring(game:HttpGet('https://raw.githubusercontent.com/ZvQiv/ZvQiv/refs/heads/main/framework.lua'))()
         local newFramework = module.new()
 
-        startFarming(newFramework)
+        startFarming(newFramework, settings)
 
         return newFramework, settings
     end
