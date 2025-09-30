@@ -69,16 +69,15 @@ function deploymentFramework:enableAutoReplace()
             return
         end
 
-        -- Convert internal name to friendly name (e.g., HeavySentry -> Heavy Sentry)
-        local friendlyName = v.Name:gsub("(%l)(%u)", "%1 %2")
-
-        -- Loop through all waves to see if this deployable is flagged for autoReplace
         for _, waveData in pairs(self.deployables) do
             for itemName, info in pairs(waveData) do
-                if info.autoReplace and itemName == friendlyName then
+                if info.autoReplace and itemName == v.Name then
+                    -- Optional: apply Y-offset so it sits on the ground
+                    local cf = v.PrimaryPart.CFrame * CFrame.new(0, 3.5, 0)
+
                     game.ReplicatedStorage.RemoteFunctions.CreateDeployable:InvokeServer(
-                        friendlyName,
-                        v.PrimaryPart.CFrame,
+                        itemName,
+                        cf,
                         "Close"
                     )
                     return
@@ -87,5 +86,6 @@ function deploymentFramework:enableAutoReplace()
         end
     end)
 end
+
 
 return deploymentFramework
