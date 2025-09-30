@@ -86,4 +86,4 @@ coroutine.wrap(function()
     end
 end)()
 
-return newFramework, configs
+return newFramework, config
