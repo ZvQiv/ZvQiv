@@ -12,25 +12,19 @@ local object_loaded = function(path, object, t)
     return path:FindFirstChild(object) or path:WaitForChild(object, t)
 end
 
-local thred = function(...)
-    RF.CreateDeployable:InvokeServer(...)
-end
-
-local deploy_items = function()
-    local objectPos = CFrame.new(6.3830452, 0.700181186, 79.9122314, 0.997979462, 0, -0.0635374859, 0, 1, 0, 0.0635374859, 0, 0.997979462)
-    
+local deploy_items = function(newFramework)
     newFramework:deploy_wave()
     
     RF.VoteSkip:InvokeServer()
 end
 
-local startFarming = function(newFramework, data)
+local startFarming = function(newFramework, settings)
     local buy, upgrade = RE.BuyStructure, RE.UpgradeStructurePlayer
     local screenGui = object_loaded(pGui, 'ScreenGui')
     local wave = screenGui.GameFrame.Core.WeaponFrame.Wave
     local current_wave = wave.Text
 
-    for k1, v1 in pairs(data.upgrades) do
+    for k1, v1 in pairs(settings.upgrades) do
         if v1.buyable then
             buy:FireServer(k1)
             
@@ -53,15 +47,13 @@ local startFarming = function(newFramework, data)
         if current_wave == '25' then
             teleportService:Teleport(133815151)
         else
-            newFramework:deploy_wave()
-            -- deploy_items()
+            deploy_items(newFramework)
         end
     end)
 
     screenGui.GameFrame.Core.WeaponFrame.VoteSkip.Reminder:GetPropertyChangedSignal("Visible"):Wait()
-    
-    newFramework:deploy_wave()
-    -- deploy_items()
+
+    deploy_items(newFramework)
 
     map:Destroy()
 end
@@ -89,7 +81,7 @@ do
         local module = loadstring(game:HttpGet('https://raw.githubusercontent.com/ZvQiv/ZvQiv/refs/heads/main/framework.lua'))()
         local newFramework = module.new()
 
-        startFarming(newFramework, settings)
+        startFarming(newFramework)
 
         return newFramework, settings
     end
