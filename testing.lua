@@ -30,7 +30,7 @@ local startFarming = function()
     local wave = screenGui.GameFrame.Core.WeaponFrame.Wave
     local current_wave = wave.Text
 
-    for k1, v1 in pairs(getgenv().upgrade_config) do
+    for k1, v1 in pairs(settings.upgrades) do
         if v1.buyable then
             buy:FireServer(k1)
             
