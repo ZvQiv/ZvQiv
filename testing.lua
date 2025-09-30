@@ -1,6 +1,5 @@
 local module = loadstring(game:HttpGet('https://raw.githubusercontent.com/ZvQiv/ZvQiv/refs/heads/main/framework.lua'))()
 local newFramework = module.new()
-getgenv().config = { }
 
 coroutine.wrap(function()
     local replicated_storage = game:GetService("ReplicatedStorage")
@@ -27,7 +26,7 @@ coroutine.wrap(function()
         local wave = screenGui.GameFrame.Core.WeaponFrame.Wave
         local current_wave = wave.Text
 
-        for k1, v1 in pairs(getgenv().config.upgrades) do -- problem is here i need upgrade configs to work here
+        for k1, v1 in pairs(getgenv().config) do -- problem is here i need upgrade configs to work here
             if v1.buyable then
                 buy:FireServer(k1)
                 
@@ -86,4 +85,4 @@ coroutine.wrap(function()
     end
 end)()
 
-return newFramework, getgenv().config
+return newFramework
