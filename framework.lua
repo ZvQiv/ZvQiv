@@ -11,27 +11,37 @@ function deploymentFramework.new()
 end
 
 -- store deployables in memory
+-- deploy_table format:
+-- { ["Flame Turret"] = { positions = {CFrame1, CFrame2}, autoReplace = true } }
 function deploymentFramework:create_deployables(wave, deploy_table)
     if not self.deployables[wave] then
         self.deployables[wave] = {}
     end
 
-    for itemName, positions in pairs(deploy_table) do
+    for itemName, info in pairs(deploy_table) do
+        local positions = info.positions or info
+        local autoReplace = info.autoReplace or false
+
         if not self.deployables[wave][itemName] then
-            self.deployables[wave][itemName] = {}
+            self.deployables[wave][itemName] = {
+                positions = {},
+                autoReplace = autoReplace
+            }
         end
 
         for _, cf in ipairs(positions) do
-            table.insert(self.deployables[wave][itemName], cf)
+            table.insert(self.deployables[wave][itemName].positions, cf)
         end
+
+        self.deployables[wave][itemName].autoReplace = autoReplace
     end
 end
 
--- deploy everything for the *current* wave
-function deploymentFramework:deploy_wave(wave) -- need to pass the wave here
+-- deploy everything for a given wave
+function deploymentFramework:deploy_wave(wave)
     local current_wave = tonumber(wave)
     if not current_wave then
-        warn("Wave label text is not a valid number.")
+        warn("Wave is not a valid number.")
         return
     end
 
@@ -41,11 +51,41 @@ function deploymentFramework:deploy_wave(wave) -- need to pass the wave here
         return
     end
 
-    for itemName, positions in pairs(waveDeploys) do
-        for _, cf in ipairs(positions) do
+    for itemName, info in pairs(waveDeploys) do
+        for _, cf in ipairs(info.positions) do
             game.ReplicatedStorage.RemoteFunctions.CreateDeployable:InvokeServer(itemName, cf, "Close")
         end
     end
+end
+
+-- enable auto-replacement of deployables that have autoReplace = true
+function deploymentFramework:enableAutoReplace()
+    local playerDeployables = workspace.Deployables[game.Players.LocalPlayer.Name]
+    if not playerDeployables then return end
+
+    playerDeployables.ChildRemoved:Connect(function(v)
+        if not v.PrimaryPart then
+            warn("Cannot respawn "..v.Name..", no PrimaryPart!")
+            return
+        end
+
+        -- Convert internal name to friendly name (e.g., HeavySentry -> Heavy Sentry)
+        local friendlyName = v.Name:gsub("(%l)(%u)", "%1 %2")
+
+        -- Loop through all waves to see if this deployable is flagged for autoReplace
+        for _, waveData in pairs(self.deployables) do
+            for itemName, info in pairs(waveData) do
+                if info.autoReplace and itemName == friendlyName then
+                    game.ReplicatedStorage.RemoteFunctions.CreateDeployable:InvokeServer(
+                        friendlyName,
+                        v.PrimaryPart.CFrame,
+                        "Close"
+                    )
+                    return
+                end
+            end
+        end
+    end)
 end
 
 return deploymentFramework
