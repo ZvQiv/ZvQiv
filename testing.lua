@@ -87,5 +87,8 @@ do
         local newFramework = module.new()
 
         startFarming(newFramework)
+
+        return newFramework
     end
 end
+
