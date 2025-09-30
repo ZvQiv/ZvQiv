@@ -55,7 +55,7 @@ function deploymentFramework:deploy_wave(wave)
 end
 
 function deploymentFramework:enableAutoReplace()
-    local playerDeployables = workspace.Deployables:FindFirstChild(game.Players.LocalPlayer.Name) or playerDeployables:WaitForChild(game.Players.LocalPlayer.Name)
+    local playerDeployables = workspace.Deployables:FindFirstChild(game.Players.LocalPlayer.Name) or workspace.Deployables:WaitForChild(game.Players.LocalPlayer.Name)
 
     playerDeployables.ChildRemoved:Connect(function(v)
         if not v.PrimaryPart then
