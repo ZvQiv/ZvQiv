@@ -61,20 +61,23 @@ end
 -- enable auto-replacement of deployables that have autoReplace = true
 function deploymentFramework:enableAutoReplace()
     local playerDeployables = workspace.Deployables[game.Players.LocalPlayer.Name]
-    if not playerDeployables then return end
 
     playerDeployables.ChildRemoved:Connect(function(v)
         if not v.PrimaryPart then
             warn("Cannot respawn "..v.Name..", no PrimaryPart!")
+            
             return
         end
 
         local cf = v.WorldPivot
         local formattedName = v.Name:gsub("(%l)(%u)", "%1 %2") -- adds space
-
+       
+        warn(formattedName)
+            
         for _, waveData in pairs(self.deployables) do
             for itemName, info in pairs(waveData) do
                 if info.autoReplace and itemName == formattedName then
+                    warn(formattedName, 2)
                     game.ReplicatedStorage.RemoteFunctions.CreateDeployable:InvokeServer(
                         formattedName,
                         cf,
