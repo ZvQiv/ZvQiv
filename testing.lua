@@ -1,6 +1,3 @@
-local module = loadstring(game:HttpGet('https://raw.githubusercontent.com/ZvQiv/ZvQiv/refs/heads/main/framework.lua'))()
-local newFramework = module.new()
-
 local replicated_storage = game:GetService("ReplicatedStorage")
 local players = game:GetService('Players')
 local teleportService = game:GetService('TeleportService')
@@ -26,7 +23,7 @@ local deploy_items = function()
     RF.VoteSkip:InvokeServer()
 end
 
-local startFarming = function(map)
+local startFarming = function()
     local buy, upgrade = RE.BuyStructure, RE.UpgradeStructurePlayer
     local screenGui = object_loaded(pGui, 'ScreenGui')
     local wave = screenGui.GameFrame.Core.WeaponFrame.Wave
@@ -85,7 +82,10 @@ do
         local rootPart = object_loaded(character, 'HumanoidRootPart')
 
         rootPart.CFrame = CFrame.new(6.38317299, 3.50018048, 79.9122925, -0.997826815, 1.02605767e-07, 0.0658911243, 9.96090179e-08, 1, -4.87654646e-08, -0.0658911243, -4.20961364e-08, -0.997826815)
+        
+        local module = loadstring(game:HttpGet('https://raw.githubusercontent.com/ZvQiv/ZvQiv/refs/heads/main/framework.lua'))()
+        local newFramework = module.new()
 
-        startFarming(map)
+        startFarming(newFramework)
     end
 end
