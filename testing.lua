@@ -49,7 +49,7 @@ coroutine.wrap(function()
             screenGui.GameFrame.WaveSurvive:GetPropertyChangedSignal("Visible"):Wait() 
             screenGui.GameFrame.WaveSurvive:GetPropertyChangedSignal("Visible"):Wait()
 
-            if current_wave == tostring(wave_to_restart_at) then
+            if current_wave == tostring(getgenv().config.wave_to_restart_at) then
                 teleportService:Teleport(133815151)
             else
                 deploy_items(current_wave)
