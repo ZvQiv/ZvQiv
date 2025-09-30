@@ -48,8 +48,10 @@ coroutine.wrap(function()
 
             screenGui.GameFrame.WaveSurvive:GetPropertyChangedSignal("Visible"):Wait() 
             screenGui.GameFrame.WaveSurvive:GetPropertyChangedSignal("Visible"):Wait()
+            
             warn(tostring(getgenv().config.wave_to_restart_at)
-            if current_wave == tostring(getgenv().config.wave_to_restart_at) then
+            
+            if current_wave == '25' then
                 teleportService:Teleport(133815151)
             else
                 deploy_items(current_wave)
