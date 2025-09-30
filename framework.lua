@@ -73,7 +73,7 @@ function deploymentFramework:enableAutoReplace()
             for itemName, info in pairs(waveData) do
                 if info.autoReplace and itemName == v.Name then
                     -- Optional: apply Y-offset so it sits on the ground
-                    local cf = v.PrimaryPart.CFrame * CFrame.new(0, 3.5, 0)
+                    local cf = v.WorldPivot
 
                     game.ReplicatedStorage.RemoteFunctions.CreateDeployable:InvokeServer(
                         itemName,
