@@ -69,15 +69,12 @@ function deploymentFramework:enableAutoReplace()
             return
         end
 
+        local cf = v.WorldPivot
+        local formattedName = v.Name:gsub("(%l)(%u)", "%1 %2") -- adds space
+
         for _, waveData in pairs(self.deployables) do
             for itemName, info in pairs(waveData) do
-                if info.autoReplace and itemName == v.Name then
-                    -- Optional: apply Y-offset so it sits on the ground
-                    local cf = v.WorldPivot
-
-                    -- format the name with spaces between lowercase-uppercase letters
-                    local formattedName = v.Name:gsub("(%l)(%u)", "%1 %2")
-
+                if info.autoReplace and itemName == formattedName then
                     game.ReplicatedStorage.RemoteFunctions.CreateDeployable:InvokeServer(
                         formattedName,
                         cf,
@@ -89,7 +86,5 @@ function deploymentFramework:enableAutoReplace()
         end
     end)
 end
-
-
 
 return deploymentFramework
