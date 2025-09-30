@@ -24,13 +24,13 @@ local deploy_items = function()
     RF.VoteSkip:InvokeServer()
 end
 
-local startFarming = function()
+local startFarming = function(newFramework, data)
     local buy, upgrade = RE.BuyStructure, RE.UpgradeStructurePlayer
     local screenGui = object_loaded(pGui, 'ScreenGui')
     local wave = screenGui.GameFrame.Core.WeaponFrame.Wave
     local current_wave = wave.Text
 
-    for k1, v1 in pairs(settings.upgrades) do
+    for k1, v1 in pairs(data.upgrades) do
         if v1.buyable then
             buy:FireServer(k1)
             
@@ -53,13 +53,15 @@ local startFarming = function()
         if current_wave == '25' then
             teleportService:Teleport(133815151)
         else
-            deploy_items()
+            newFramework:deploy_wave()
+            -- deploy_items()
         end
     end)
 
     screenGui.GameFrame.Core.WeaponFrame.VoteSkip.Reminder:GetPropertyChangedSignal("Visible"):Wait()
-
-    deploy_items()
+    
+    newFramework:deploy_wave()
+    -- deploy_items()
 
     map:Destroy()
 end
@@ -87,7 +89,7 @@ do
         local module = loadstring(game:HttpGet('https://raw.githubusercontent.com/ZvQiv/ZvQiv/refs/heads/main/framework.lua'))()
         local newFramework = module.new()
 
-        startFarming(newFramework)
+        startFarming(newFramework, settings)
 
         return newFramework, settings
     end
