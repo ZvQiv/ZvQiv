@@ -26,10 +26,10 @@ coroutine.wrap(function()
         local wave = screenGui.GameFrame.Core.WeaponFrame.Wave
         local current_wave = wave.Text
 
-        for k1, v1 in pairs(getgenv().config) do -- problem is here i need upgrade configs to work here
-            if v1.buyable then
+        for k1, v1 in pairs(getgenv().config) do
+            if type(v1) == "table" and v1.buyable then
                 buy:FireServer(k1)
-                
+        
                 for k2, v2 in pairs(v1) do
                     if k2 ~= "buyable" then
                         for i = 1, v2 do
