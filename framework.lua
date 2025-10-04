@@ -73,7 +73,9 @@ function deploymentFramework:deploy_wave(wave)
             for _, targetPosition in ipairs(positions) do
                 variables.place_deploys:InvokeServer(object_name, targetPosition, "Close")
             end
-
+            
+            local deployables = variables.deployables:FindFirstChild(variables.lplr.Name) or variables.deployables:WaitForChild(variables.lplr.Name)
+            
             if not variables.deployablesFolder then
                 variables.deployablesFolder = variables.deployables[variables.lplr.Name]
             end
