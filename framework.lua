@@ -160,7 +160,7 @@ function deploymentFramework:game_loaded()
     local player_spawn = self.vari.remote_funcs.RemoteSpawnPlayer
 
     self:property_change_wait(is_load, 'Visible', 1)
-    self:child_added_wait(geometry_map, 'Terrain', 5)
+    geometry_map.ChildAdded:Wait()
     menugui:remove()
     player_spawn:InvokeServer()
 end
