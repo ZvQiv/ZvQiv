@@ -75,7 +75,7 @@ function deploymentFramework:deploy_wave(wave)
             end
 
             if not variables.deployablesFolder then
-                variables.deployablesFolder = variables.deployables[lplr.Name]
+                variables.deployablesFolder = variables.deployables[variables.lplr.Name]
             end
         else
             --// "placed_deployables" represents the amount of deployables placed down at any given time:
