@@ -216,4 +216,4 @@ function deploymentFramework:property_change_wait(obj, property, timeout)
     return bool
 end
 
-return self
+return deploymentFramework
