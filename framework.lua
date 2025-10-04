@@ -158,8 +158,7 @@ function deploymentFramework:game_loaded()
     local player_spawn = self.vari.remote_funcs.RemoteSpawnPlayer
 
     self:property_change_wait(is_load, 'Visible', 1)
-    
-    geometry_map.ChildAdded:Wait()
+    self:child_added_wait(geometry_map, map, 5)
     menugui:remove()
     player_spawn:InvokeServer()
 end
@@ -214,6 +213,36 @@ function deploymentFramework:property_change_wait(obj, property, timeout)
     end
 
     return bool
+end
+
+function deploymentFramework:child_added_wait(parent, childName, timeout)
+    local bool = false
+    local child
+
+    child = parent:FindFirstChild(childName)
+    if child then
+        return child
+    end
+
+    local conn
+    conn = parent.ChildAdded:Connect(function(c)
+        if c.Name == childName then
+            child = c
+            bool = true
+        end
+    end)
+
+    local time = 0
+    while not bool and (not timeout or time < timeout) do
+        task.wait(0.1)
+        time += 0.1
+    end
+
+    if conn.Connected then
+        conn:Disconnect()
+    end
+
+    return child
 end
 
 return deploymentFramework
