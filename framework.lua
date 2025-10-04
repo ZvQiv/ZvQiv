@@ -155,7 +155,7 @@ function deploymentFramework:game_loaded()
     local is_load = self:object_loaded_wait(menugui, "LoadingFrame")
     local map = workspace.Map
     local geometry_map = map.Geometry
-    local player_spawn = RF.RemoteSpawnPlayer
+    local player_spawn = self.vari.remote_funcs.RemoteSpawnPlayer
 
     self:property_change_wait(is_load, 'Visible', 1)
     
